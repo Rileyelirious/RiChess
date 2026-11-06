@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
-#include "logger.c"
+#include "logger.h"
+#include "board.h"
 
 #define BUFFER_SIZE 4096
 
-void uci_loop() {
+void uci_loop(Board *b) {
     char line[BUFFER_SIZE];
 
     setbuf(stdout, NULL);
@@ -20,7 +21,7 @@ void uci_loop() {
         log_message("IN", line);
 
         if (strcmp(line, "uci") == 0) {
-            printf("id name RiChess v1\n");
+            printf("id name RiChess eng-c-v1\n"); // type-lang-version (this is the engine, written in c, first version)
             printf("id author Rileyelirious\n");
             printf("uciok\n");
         }
@@ -28,7 +29,7 @@ void uci_loop() {
             printf("readyok\n");
         }
         else if (strcmp(line, "ucinewgame") == 0) {
-            // reset game state stuff to default
+            board_clear(b);
         }
         else if (strncmp(line, "position", 8) == 0) {
             // put in board position
@@ -44,6 +45,8 @@ void uci_loop() {
 }
 
 int main() {
-    uci_loop();
+    Board b;
+    board_clear(&b);
+    uci_loop(&b);
     return 0;
 }
