@@ -12,6 +12,11 @@ enum { WHITE, BLACK };
 
 #define NO_SQUARE 0
 
+#define WHITE_OO  1 // Binary: 0001 (Decimal: 1)
+#define WHITE_OOO 2 // Binary: 0010 (Decimal: 2)
+#define BLACK_OO  4 // Binary: 0100 (Decimal: 4)
+#define BLACK_OOO 8 // Binary: 1000 (Decimal: 8)
+
 typedef struct Board {
     int squares[120];
     int side;
@@ -23,6 +28,7 @@ typedef struct Board {
 } Board;
 
 void board_clear(Board *b);
-void board_print(const Board *b);
+void check_board_values(const Board *b);
+void parse_position(Board *b, char input[]);
 
 #endif
