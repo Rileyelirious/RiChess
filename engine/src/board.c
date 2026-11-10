@@ -50,6 +50,12 @@ void check_board_values(const Board *b) {
     printf("King Squares: %d %d\n", b->king_sq[0], b->king_sq[1]);
 }
 
+void make_move(Board *b, int from, int to) {
+    int piece = b->squares[from];
+    b->squares[from] = EMPTY;
+    b->squares[to] = piece;
+}
+
 void fen_to_board(Board *b, char fen[]) {
     int board_pointer = 21; // first square on 8th rank for fen
     char *token = strtok(fen, " "); // this becomes the position part of the string (ideally)
@@ -153,6 +159,7 @@ void fen_to_board(Board *b, char fen[]) {
 }
 
 void parse_position(Board *b, char input[]) {
+    char *moves = strstr(input, "moves");
     char *token = strtok(input + 9, " ");
     if (strcmp(token, "fen") == 0) {
         char fen_buffer[128] = "";
@@ -165,11 +172,18 @@ void parse_position(Board *b, char input[]) {
         fen_to_board(b, fen_buffer);
     }
     else if (strcmp(token, "startpos") == 0) {
-        fen_to_board(b, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"); // set to start position
+        char start[] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        fen_to_board(b, start); // set to start position
     }
 
-    token = strtok(NULL, " ");
+    token = strtok(moves, " ");
     if (token != NULL && strcmp(token, "moves") == 0) {
-        printf("move time");
+        while (token != NULL) {
+            token = strtok(NULL, " ");
+            if (token == NULL) break;
+            int from = 21 + (token[0] - 'a') + (10 * ('8' - token[1]));
+            int to = 21 + (token[2] - 'a') + (10 * ('8' - token[3]));
+            make_move(b, from, to);
+        }
     }
 }

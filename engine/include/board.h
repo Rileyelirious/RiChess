@@ -17,7 +17,7 @@ enum { WHITE, BLACK };
 #define BLACK_OO  4 // Binary: 0100 (Decimal: 4)
 #define BLACK_OOO 8 // Binary: 1000 (Decimal: 8)
 
-typedef struct Board {
+typedef struct {
     int squares[120];
     int side;
     int castle_rights;

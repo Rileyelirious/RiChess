@@ -33,7 +33,6 @@ void uci_loop(Board *b) {
         }
         else if (strncmp(line, "position", 8) == 0) {
             parse_position(b, line);
-            // put in board position 2krr3/1p3pbp/6p1/1PP5/2P1qBPP/p7/P3B2Q/2R2K1R w - - 1 29
         }
         else if (strncmp(line, "go", 2) == 0) {
             // search function
