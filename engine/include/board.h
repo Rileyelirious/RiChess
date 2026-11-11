@@ -17,6 +17,9 @@ enum { WHITE, BLACK };
 #define BLACK_OO  4 // Binary: 0100 (Decimal: 4)
 #define BLACK_OOO 8 // Binary: 1000 (Decimal: 8)
 
+#define IS_BLACK(p) ((p) >= bP && (p) <= bK)
+#define IS_WHITE(p) ((p) >= wP && (p) <= wK)
+
 typedef struct {
     int squares[120];
     int side;
@@ -27,8 +30,15 @@ typedef struct {
     int king_sq[2];
 } Board;
 
+typedef struct {
+    int from;
+    int to;
+    int promote_to;
+} Move;
+
 void board_clear(Board *b);
 void check_board_values(const Board *b);
 void parse_position(Board *b, char input[]);
+void parse_legal_moves_for_side(Board *b, int side, Move moves[]);
 
 #endif

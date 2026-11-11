@@ -51,9 +51,8 @@ void check_board_values(const Board *b) {
 }
 
 void make_move(Board *b, int from, int to) {
-    int piece = b->squares[from];
+    b->squares[to] = b->squares[from];
     b->squares[from] = EMPTY;
-    b->squares[to] = piece;
 }
 
 void fen_to_board(Board *b, char fen[]) {
@@ -78,7 +77,7 @@ void fen_to_board(Board *b, char fen[]) {
             }
         }
         else {
-            switch (token[i]) {
+            switch (token[i]) { // translate fen pieces to boardrep pieces
                 case 'P':
                     b->squares[board_pointer+rank_offset] = wP;
                     break;
@@ -159,7 +158,7 @@ void fen_to_board(Board *b, char fen[]) {
 }
 
 void parse_position(Board *b, char input[]) {
-    char *moves = strstr(input, "moves");
+    char *moves = strstr(input, "moves"); // i would just use token for moves but fen_to_board uses strtok 'till its null, so saving now
     char *token = strtok(input + 9, " ");
     if (strcmp(token, "fen") == 0) {
         char fen_buffer[128] = "";
@@ -172,7 +171,7 @@ void parse_position(Board *b, char input[]) {
         fen_to_board(b, fen_buffer);
     }
     else if (strcmp(token, "startpos") == 0) {
-        char start[] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        char start[] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; // have to make this because string literals can't be tokenized
         fen_to_board(b, start); // set to start position
     }
 
