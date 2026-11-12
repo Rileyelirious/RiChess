@@ -39,6 +39,5 @@ typedef struct {
 void board_clear(Board *b);
 void check_board_values(const Board *b);
 void parse_position(Board *b, char input[]);
-void parse_legal_moves_for_side(Board *b, int side, Move moves[]);
 
 #endif
